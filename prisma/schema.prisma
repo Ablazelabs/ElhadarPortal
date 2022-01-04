@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model refresh_tokens {
+  refresh_token String @unique
+  username      String
+  user          user   @relation(fields: [username], references: [username])
+}
+
+model personal_details {
+  id                        Int      @id @default(autoincrement())
+  name_of_company           String
+  full_name                 String
+  email                     String
+  phone_number              String
+  street_name               String
+  city                      String
+  region                    String
+  sales_rep                 String
+  other_profile_text        String?
+  other_glass_text          String?
+  other_aluminum_text       String?
+  quantity_remark           String?
+  ltz_profile               Boolean
+  curtain_profile           Boolean
+  fasha_zocolo              Boolean
+  oval_flat_ferma           Boolean
+  sliding_cup               Boolean
+  pressure_plate            Boolean
+  RHS                       Boolean
+  external_internal_profile Boolean
+  clear                     Boolean
+  reflective                Boolean
+  tinted                    Boolean
+  tempered                  Boolean
+  laminated                 Boolean
+  silver                    Boolean
+  coffee                    Boolean
+  black                     Boolean
+  grey                      Boolean
+  ivory                     Boolean
+  isContacted               Boolean  @default(false)
+  created_time              DateTime @default(now())
+}
+
+model user {
+  username       String           @unique
+  password       String
+  clearance      Int              @default(0)
+  refresh_tokens refresh_tokens[]
+}
